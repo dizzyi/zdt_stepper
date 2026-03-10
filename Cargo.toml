@@ -1,0 +1,11 @@
+[package]
+name = "zdt_stepper"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1.0.228", features = ["derive"] }
+
+[dev-dependencies]
+serialport = { version = "4.8.1" }
+dotenvy = { version = "0.15.7" }
