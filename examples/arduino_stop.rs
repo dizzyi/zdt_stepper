@@ -26,6 +26,8 @@ fn main() {
 
     println!("Connected.");
 
+    std::thread::sleep(std::time::Duration::from_secs(3));
+
     let state = std::sync::Arc::new(std::sync::RwLock::new(false));
 
     {
@@ -44,11 +46,9 @@ fn main() {
                     }
 
                     buf.push(b[0] as char);
-
-                    std::thread::sleep(std::time::Duration::from_millis(5));
                 }
 
-                println!("{}", buf);
+                // println!("{}", buf);
 
                 let v = buf.split(",").collect::<Vec<_>>();
 
@@ -63,8 +63,10 @@ fn main() {
                     // println!("{}", read_state);
                     *state.write().unwrap() = read_state;
                 } else {
-                    println!("WARN PARSE ERROR");
+                    println!("WARN PARSE ERROR: {:?}", buf);
                 }
+
+                std::thread::sleep(std::time::Duration::from_millis(5));
             }
         });
     }

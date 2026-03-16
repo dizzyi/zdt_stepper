@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controller</title>
+</head>
+
+<body>
+  <div id="en">
+    <button onclick="enable(true)">Enable</button>
+  </div>
+  <div id="btns">
+    <button onclick="spin(true)">CW</button>
+    <button onclick="spin(false)">CCW</button>
+    <button onclick="enable(false)">Disable</button>
+  </div>
+  <div id="spining" hidden>
+    <h1>Spining</h1>
+  </div>
+  <style>
+    button {
+      width: 30%;
+      height: 5rem;
+    }
+  </style>
+  <script defer>
+    let en = document.getElementById("en")
+    let btns = document.getElementById("btns")
+    let spining = document.getElementById("spining")
+    setInterval(async () => {
+      let res = await fetch("/state");
+      let text = await res.text();
+      console.log(text);
+      en.hidden = true;
+      spining.hidden = true;
+      btns.hidden = true;
+      if (text == "0") {
+        en.hidden = false;
+      } else if (text == "1") {
+        btns.hidden = false;
+      } else {
+        spining.hidden = false;
+
+      }
+    }, 100)
+
+    async function spin(cw) {
+      let res = await fetch(`/spin/${cw ? "1" : "0"}`);
+      let text = await res.text();
+      console.log(text);
+    }
+    async function enable(b) {
+      let res = await fetch(`/enable/${b ? "1" : "0"}`);
+      let text = await res.text();
+      console.log(text);
+    }
+  </script>
+</body>
+
+</html>
