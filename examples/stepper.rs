@@ -20,8 +20,31 @@ fn main() {
         .expect("Failed to open port");
 
     println!("Connected.");
+    std::thread::sleep(std::time::Duration::from_millis(5000));
 
-    // let pos =
+    // let _ = port.write(&TriggerCalibration{}.make_req(2)).unwrap();
+    // std::thread::sleep(std::time::Duration::from_millis(1000));
+    // return;
+
+    let _ = port.write(&ResetProtection {}.make_req(2)).unwrap();
+    println!("Reset Protection");
+    std::thread::sleep(std::time::Duration::from_millis(1000));
+
+    let _ = port.write(&ResetZero {}.make_req(2)).unwrap();
+    println!("Reset Zero");
+    std::thread::sleep(std::time::Duration::from_millis(1000));
+
+    let _ = port
+        .write(
+            &EnableMotor {
+                enable: true,
+                buffer: false,
+            }
+            .make_req(2),
+        )
+        .unwrap();
+    println!("Enable Motor");
+    std::thread::sleep(std::time::Duration::from_millis(1000));
 
     let req = ControlPosition {
         cw: true,
