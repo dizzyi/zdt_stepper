@@ -73,6 +73,13 @@ fn main() {
     // port.write(&req).unwrap();
 
     loop {
+        print!(
+            "{} ",
+            std::time::SystemTime::now()
+                .duration_since(std::time::SystemTime::UNIX_EPOCH)
+                .unwrap()
+                .as_secs()
+        );
         print_buf(&req);
         port.write(&req).unwrap();
         std::thread::sleep(std::time::Duration::from_millis(15_000));
